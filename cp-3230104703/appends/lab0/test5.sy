@@ -1,0 +1,109 @@
+// Input: 5 3 8 1 6 2
+// Output: 1 2 3 6 8 1 8
+
+// 打印数组
+void printArray(int len, int a[]) {
+    int i = 0;
+    while (i < len) {
+        write(a[i]);
+        i = i + 1;
+    }
+}
+
+// 选择排序（从小到大）
+void selectionSort(int len, int a[]) {
+    int i = 0;
+    int j = 0;
+    int minIdx;
+    int temp;
+    
+    i = 0;
+    while (i < len - 1) {
+        minIdx = i;
+        j = i + 1;
+        while (j < len) {
+            if (a[j] < a[minIdx]) {
+                minIdx = j;
+            }
+            j = j + 1;
+        }
+        if (minIdx != i) {
+            temp = a[i];
+            a[i] = a[minIdx];
+            a[minIdx] = temp;
+        }
+        i = i + 1;
+    }
+}
+
+// 求最小值
+int getMin(int len, int a[]) {
+    int minVal = a[0];
+    int i = 1;
+    while (i < len) {
+        if (a[i] < minVal) {
+            minVal = a[i];
+        }
+        i = i + 1;
+    }
+    return minVal;
+}
+
+// 求最大值
+int getMax(int len, int a[]) {
+    int maxVal = a[0];
+    int i = 1;
+    while (i < len) {
+        if (a[i] > maxVal) {
+            maxVal = a[i];
+        }
+        i = i + 1;
+    }
+    return maxVal;
+}
+
+// 初始化数组
+void initArray(int n, int a[]) {
+    int i = 0;
+    while (i < n) {
+        a[i] = 0;
+        i = i + 1;
+    }
+}
+
+int main() {
+
+    int a[100];
+    int n;
+
+    int i;
+    int minVal;
+    int maxVal;
+    
+    n = read();
+    
+    // 读取数组元素
+    i = 0;
+    while (i < n) {
+        a[i] = read();
+        i = i + 1;
+    }
+    
+    // 排序
+    selectionSort(n, a);
+    
+    // 输出排序结果
+    printArray(n, a);
+    
+    // 求最小值
+    minVal = getMin(n, a);
+    
+    // 求最大值
+    maxVal = getMax(n, a);
+    
+    // 输出最小值和最大值
+    write(minVal);
+    write(maxVal);
+    
+    return 0;
+}

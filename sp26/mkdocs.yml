@@ -1,0 +1,118 @@
+site_name: ZJU Compiler
+site_url: https://git.zju.edu.cn/compiler/sp26
+repo_url: https://git.zju.edu.cn/compiler/sp26
+repo_name: compiler/sp26
+nav:
+  - 主页: 'index.md'
+  - 'News - 2026-3-15': 'news.md'
+  - 致谢: 'ack.md'
+
+  - Lab:
+    - 'Lab 0: 环境配置与测试用例编写': 'lab/lab0.md'
+    - 'Lab 1: 词法与语法分析': 'lab/lab1.md'
+    - 'Lab 2: 语义分析': 'lab/lab2.md'
+    - 'Lab 3: 中间代码生成':
+      - 'lab/lab3/index.md'
+      - 'Zero IR': 'lab/lab3/zero.md'
+      - 'Accipit IR': 'lab/lab3/accipit.md'
+    - 'Lab 4: 目标代码生成': 'lab/lab4.md'
+
+  - Bonus:
+    - 'Bonus 0: 贡献优质测试用例': 'bonus/contribute.md'
+    - 'Bonus 1: Lexer & Parser, DIY!': 'bonus/rdparser.md'
+    - 'Bonus 2: 支持更多语言特性': 'bonus/extra.md'
+    - 'Bonus 3: 编译优化': 'bonus/optimization.md'
+
+  - 附录:
+    - 'App. A: SysY 语言规范': 'appendix/sysy.md'
+    - 'App. B: 测试框架说明': 'appendix/tester.md'
+    - 'App. C: Flex, Bison Crash Course': 'appendix/lex_yacc.md'
+    - 'App. D: RISC-V Crash Course': 'appendix/riscv.md'
+    - 'App. E: RISC-V 32 工具链指南': 'appendix/rv32_toolchain.md'
+    - 'App. F: 静态单赋值 SSA': 'appendix/ssa.md'
+    - 'App. G: Accipit IR 规范': 'appendix/accipit-spec.md'
+    - 'App. H: VSCode 调试指南': 'appendix/vscode.md'
+
+copyright: Copyright &copy; 2023 - 2026 ZJU Compiler Group
+
+
+theme: 
+  name: material
+  custom_dir: overrides
+  favicon: 'assets/image/zjueagle.png'
+  logo: 'assets/image/zjueagle_white.svg'
+  features:
+    - content.tabs.link
+    - content.code.copy
+    # - content.action.edit
+    - navigation.tracking
+    - navigation.top
+    # - navigation.tabs
+    - navigation.footer
+    - navigation.indexes
+    - navigation.sections
+
+  theme:
+  palette:
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - md_in_html
+  - def_list
+  - pymdownx.betterem # better emphasize
+  - pymdownx.tabbed:
+      alternate_style: true 
+  - toc:
+      permalink: true
+      permalink_title: Anchor link to this section for reference
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
+  - git-revision-date-localized
+  - meta-manager
+
+extra_javascript:
+  - katex/katex.js
+  - katex/katex.min.js
+  - katex/auto-render.min.js
+
+extra_css:
+  - katex/katex.min.css

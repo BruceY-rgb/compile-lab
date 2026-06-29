@@ -1,0 +1,21 @@
+// Empty statement in if/while should be accepted.
+int main() {
+  int i = 0;
+  int sum = 0;
+
+  while (i < 6) {
+    i = i + 1;
+    if (i % 2 == 0)
+      ;
+    else
+      sum = sum + i;
+  }
+
+  if (sum > 0)
+    ;
+  else
+    return 1;
+
+  write(sum);
+  return 0;
+}

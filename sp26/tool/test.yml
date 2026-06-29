@@ -1,0 +1,86 @@
+variables:
+  COMPILER_TEST_IMAGE: "ghcr.io/zju-cp/compiler-tester:latest"
+
+workflow:
+  rules:
+    - exists:
+        - dune-project
+        - "*.opam"
+        - "**/*.opam"
+        - "**/*.ml"
+        - "**/*.mli"
+      variables:
+        COMPILER_TEST_IMAGE: "ghcr.io/zju-cp/compiler-tester-ocaml:latest"
+    - when: always
+
+default:
+  image: $COMPILER_TEST_IMAGE
+
+stages:
+  - build
+  - test_public
+  - test_hidden_and_score
+
+build_compiler:
+  stage: build
+  tags:
+    - compiler-tester
+  script:
+    - bash build.sh
+  artifacts:
+    paths:
+      - ./*
+    expire_in: 1 hour
+  only:
+    - /^lab[0-4]$/
+    - /^bonus[1-3]$/
+
+test_simple_labs:
+  stage: test_public
+  tags:
+    - compiler-tester-hidden
+  script:
+    - if [ -d 'sp26-tests' ]; then rm -rf sp26-tests; fi
+    - git clone https://git.zju.edu.cn/compiler/sp26-tests.git
+    - unshare -n python3 sp26-tests/test.py $CI_COMMIT_REF_NAME . --sandbox
+  only:
+    - /^lab[0-1]$/
+    - /^bonus[1-3]$/
+
+run_public_tests:
+  stage: test_public
+  tags:
+    - compiler-tester-hidden
+  script:
+    - if [ -d 'sp26-tests' ]; then rm -rf sp26-tests; fi
+    - git clone https://git.zju.edu.cn/compiler/sp26-tests.git
+    - mkdir -p .test_results
+    - unshare -n python3 sp26-tests/test.py $CI_COMMIT_REF_NAME . --phase public --sandbox -o .test_results
+  artifacts:
+    paths:
+      - .test_results/
+    expire_in: 1 hour
+  only:
+    - /^lab[2-4]$/
+
+run_hidden_tests:
+  stage: test_hidden_and_score
+  tags:
+    - compiler-tester-hidden
+  environment: autograding
+  script:
+    - if [ -d 'sp26-tests' ]; then rm -rf sp26-tests; fi
+    - git clone https://git.zju.edu.cn/compiler/sp26-tests.git
+    - HIDDEN_DIR=$(mktemp -d)
+    - git clone https://${HIDDEN_TESTS_TOKEN}@git.zju.edu.cn/compiler/sp26-tests-hidden.git "$HIDDEN_DIR/hidden"
+    - unset HIDDEN_TESTS_TOKEN
+    - |
+      unshare -n python3 sp26-tests/test.py $CI_COMMIT_REF_NAME . \
+        --phase hidden \
+        --hidden-dir "$HIDDEN_DIR/hidden" \
+        --sandbox \
+        -o .test_results
+    - rm -rf "$HIDDEN_DIR"
+    - unshare -n python3 sp26-tests/test.py $CI_COMMIT_REF_NAME . --phase score --sandbox --public-weight 80 --hidden-weight 20 -o .test_results
+  only:
+    - /^lab[2-4]$/

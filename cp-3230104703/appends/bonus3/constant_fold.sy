@@ -1,0 +1,24 @@
+// Input: None
+// Output: 19 12 27
+int main() {
+  int a = 3;
+  int b = 4;
+  int x = a * 0 + (2 + 5) * 3 - 2;
+  int y = 0;
+
+  if (1 == 1) {
+    y = 12;
+  } else {
+    y = 99;
+  }
+
+  int z = 27;
+  if (3 * 4 < 2) {
+    z = 100;
+  }
+
+  write(x);
+  write(y);
+  write(z);
+  return 0;
+}

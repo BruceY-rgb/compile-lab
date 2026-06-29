@@ -1,0 +1,13 @@
+// Input: 10 3
+// Output: 30 3 1
+
+int main(){
+    int a = read();
+    int b = read();
+    
+    write(a * b);   // 乘法
+    write(a / b);   // 除法
+    write(a % b);   // 模运算
+    
+    return 0;
+}

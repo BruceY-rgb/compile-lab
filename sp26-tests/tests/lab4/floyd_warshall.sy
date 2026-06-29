@@ -1,0 +1,404 @@
+// Input: 3 3 0 1 1 1 2 2 2 0 1
+// Output: 0 1 1 2 0 2 1 2 0
+
+// Floyd-Warshall 多源最短路算法
+// 包含完整的 SysY 语法覆盖：数组、多维数组、嵌套循环、递归、函数传参、条件判断、逻辑运算等
+
+// 全局变量声明（多个变量）
+int globalArr[10];
+int globalMatrix[5][5];
+int a = 1, b = 2, c = 3;
+
+// 数组字面量初始化测试
+int initArr1[3] = {1, 2, 3};
+int initArr2[2][2] = {{1, 2}, {3, 4}};
+
+// 获取最小值
+int min(int a, int b) {
+    if (a < b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+// 获取最大值
+int max(int a, int b) {
+    if (a > b) {
+        return a;
+    } else {
+        return b;
+    }
+}
+
+// 初始化图
+void initGraph(int n, int graph[]) {
+    int i;
+    int j;
+    int idx;
+
+    i = 0;
+    while (i < n) {
+        j = 0;
+        while (j < n) {
+            idx = i * 10 + j;
+            if (i == j) {
+                graph[idx] = 0;
+            } else {
+                graph[idx] = 100;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+}
+
+// Floyd-Warshall 算法核心 - 三重嵌套循环
+void floydWarshall(int n, int graph[]) {
+    int i;
+    int j;
+    int k;
+    int temp;
+    int idx1;
+    int idx2;
+    int idx3;
+
+    k = 0;
+    while (k < n) {
+        i = 0;
+        while (i < n) {
+            j = 0;
+            while (j < n) {
+                idx1 = i * 10 + j;
+                idx2 = i * 10 + k;
+                idx3 = k * 10 + j;
+                temp = graph[idx2] + graph[idx3];
+                if (temp < graph[idx1]) {
+                    graph[idx1] = temp;
+                }
+                j = j + 1;
+            }
+            i = i + 1;
+        }
+        k = k + 1;
+    }
+}
+
+// 测试二维数组参数语法
+int sum2DArray(int arr[][10], int n) {
+    int i;
+    int j;
+    int total;
+
+    total = 0;
+    i = 0;
+    while (i < n) {
+        j = 0;
+        while (j < n) {
+            total = total + arr[i][j];
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+
+    return total;
+}
+
+// 冒泡排序
+void bubbleSort(int n, int arr[]) {
+    int i;
+    int j;
+    int temp;
+
+    i = 0;
+    while (i < n - 1) {
+        j = 0;
+        while (j < n - i - 1) {
+            if (arr[j] > arr[j + 1]) {
+                temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+}
+
+// 快速排序分区
+int partition(int arr[], int low, int high) {
+    int pivot;
+    int i;
+    int j;
+    int temp;
+
+    pivot = arr[high];
+    i = low - 1;
+    j = low;
+
+    while (j < high) {
+        if (arr[j] <= pivot) {
+            i = i + 1;
+            temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+        j = j + 1;
+    }
+
+    temp = arr[i + 1];
+    arr[i + 1] = arr[high];
+    arr[high] = temp;
+
+    return i + 1;
+}
+
+// 快速排序递归
+void quickSortRec(int arr[], int low, int high) {
+    int pi;
+
+    if (low < high) {
+        pi = partition(arr, low, high);
+        quickSortRec(arr, low, pi - 1);
+        quickSortRec(arr, pi + 1, high);
+    }
+}
+
+// 快速排序 wrapper
+void quickSort(int n, int arr[]) {
+    quickSortRec(arr, 0, n - 1);
+}
+
+// 归并排序合并
+void merge(int arr[], int left, int mid, int right) {
+    int n1;
+    int n2;
+    int i;
+    int j;
+    int k;
+    int L[100];
+    int R[100];
+
+    n1 = mid - left + 1;
+    n2 = right - mid;
+
+    i = 0;
+    while (i < n1) {
+        L[i] = arr[left + i];
+        i = i + 1;
+    }
+
+    i = 0;
+    while (i < n2) {
+        R[i] = arr[mid + 1 + i];
+        i = i + 1;
+    }
+
+    L[n1] = 100;
+    R[n2] = 100;
+
+    i = 0;
+    j = 0;
+    k = left;
+
+    while (k <= right) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i = i + 1;
+        } else {
+            arr[k] = R[j];
+            j = j + 1;
+        }
+        k = k + 1;
+    }
+}
+
+// 归并排序递归
+void mergeSortRec(int arr[], int left, int right) {
+    int mid;
+
+    if (left < right) {
+        mid = (left + right) / 2;
+        mergeSortRec(arr, left, mid);
+        mergeSortRec(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
+// 归并排序 wrapper
+void mergeSort(int n, int arr[]) {
+    mergeSortRec(arr, 0, n - 1);
+}
+
+// 计算数组总和
+int sumArray(int arr[], int n) {
+    int i;
+    int total;
+
+    total = 0;
+    i = 0;
+    while (i < n) {
+        total = total + arr[i];
+        i = i + 1;
+    }
+
+    return total;
+}
+
+// 计算数组平均值
+int avgArray(int arr[], int n) {
+    int total;
+    total = sumArray(arr, n);
+    return total / n;
+}
+
+// 找最大值
+int findMax(int arr[], int n) {
+    int i;
+    int maxVal;
+
+    maxVal = arr[0];
+    i = 1;
+    while (i < n) {
+        if (arr[i] > maxVal) {
+            maxVal = arr[i];
+        }
+        i = i + 1;
+    }
+
+    return maxVal;
+}
+
+// 找最小值
+int findMin(int arr[], int n) {
+    int i;
+    int minVal;
+
+    minVal = arr[0];
+    i = 1;
+    while (i < n) {
+        if (arr[i] < minVal) {
+            minVal = arr[i];
+        }
+        i = i + 1;
+    }
+
+    return minVal;
+}
+
+// 二分查找
+int binarySearch(int arr[], int n, int target) {
+    int left;
+    int right;
+    int mid;
+
+    left = 0;
+    right = n - 1;
+
+    while (left <= right) {
+        mid = (left + right) / 2;
+        if (arr[mid] == target) {
+            return mid;
+        } else {
+            if (arr[mid] < target) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+    }
+
+    return -1;
+}
+
+// 测试逻辑运算和取模
+int testLogicAndMod(int x, int y) {
+    int result;
+    int arr[5] = {1, 2, 3, 4, 5};
+    int matrix[2][2] = {{1, 2}, {3, 4}};
+
+    // 一元加号和负号
+    int pos = +10;
+    int neg = -5;
+    int notVal = !0;
+
+    // 乘法
+    int mul = x * y;
+
+    // 逻辑与 &&
+    if (x > 0 && y > 0) {
+        result = 1;
+    } else {
+        result = 0;
+    }
+
+    // 逻辑或 ||
+    if (x < 0 || y < 0) {
+        result = result + 2;
+    }
+
+    // 大于等于 >=
+    if (x >= 5) {
+        result = result + 1;
+    }
+
+    // 不等于 !=
+    if (x != y) {
+        result = result + 3;
+    }
+
+    // 取模
+    result = result + (x % y);
+
+    return result;
+}
+
+// 测试空语句和表达式语句
+void testEmptyStmt() {
+    ;
+    1;
+    return;
+}
+
+// 主函数
+int main() {
+    int n;
+    int m;
+    int i;
+    int j;
+    int u;
+    int v;
+    int w;
+    int graph[100];
+    int idx;
+
+    n = read();
+    m = read();
+
+    initGraph(n, graph);
+
+    i = 0;
+    while (i < m) {
+        u = read();
+        v = read();
+        w = read();
+        idx = u * 10 + v;
+        graph[idx] = w;
+        i = i + 1;
+    }
+
+    floydWarshall(n, graph);
+
+    i = 0;
+    while (i < n) {
+        j = 0;
+        while (j < n) {
+            idx = i * 10 + j;
+            write(graph[idx]);
+            j = j + 1;
+        }
+        i = i + 1;
+    }
+
+    return 0;
+}

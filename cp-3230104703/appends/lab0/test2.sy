@@ -1,0 +1,20 @@
+// Input: 5
+// Output: 5 -5 0
+
+int x, y;
+
+int main() {
+    int a = read();
+    int b = +a;
+    int c = -a;
+    int d = !a;
+    int e = (a + 1);
+
+    a;
+    ;
+
+    write(b);
+    write(c);
+    write(d);
+    return 0;
+}

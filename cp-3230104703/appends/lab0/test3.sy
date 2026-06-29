@@ -1,0 +1,19 @@
+// Input: 5 3
+// Output: 1
+
+int test(int a[][3]) {
+    return a[0][0];
+}
+
+int main(){
+    int a = read();
+    int b = read();
+
+    if (a > b) {
+        write(1);
+    } else {
+        write(0);
+    }
+
+    return 0;
+}
